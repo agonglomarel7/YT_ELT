@@ -1,12 +1,17 @@
 import requests
 import json
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path="./.env")
+# ⚠️ Mets ici ta vraie clé API YouTube Data API v3
+CHANNEL_HANDLE = "MrBeast"
+API_KEY = os.getenv("API_KEY")
+
+
 def get_playlist_id():
     try:
-        # ⚠️ Mets ici ta vraie clé API YouTube Data API v3
-        API_KEY = "AIzaSyD_MTThH71euak1H6InXgwDTzAOh7aoQ_4"
-        CHANNEL_HANDLE = "MrBeast"
-
         # URL de l'endpoint YouTube Data API
         url = (
             f"https://youtube.googleapis.com/youtube/v3/channels"
