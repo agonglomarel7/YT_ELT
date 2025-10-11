@@ -30,3 +30,5 @@ Le pipeline a pour mission de :
 ---
 
 ## 📦 Structure du projet
+
+### Data extraction 
