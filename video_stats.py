@@ -37,8 +37,26 @@ def get_playlist_id():
         print("Erreur lors de l'appel API :", e)
         return None
 
+
+def get_video_id(playlistId):
+
+    videos = []
+
+    pageToken = None
+
+    baseUrl = url = f"https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle={CHANNEL_HANDLE}&key={API_KEY}"
+        
+    try:
+
+        while True:
+            url = baseUrl
+    
+
+    except requests.exceptions.RequestException as e:
+        raise e
+    
 if __name__ == "__main__":
-    result = get_playlist_id()
+    playlisId = get_playlist_id()
     if result:
         print("✅ Requête réussie")
         print(result)
