@@ -5,9 +5,11 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path="./.env")
-# ⚠️ Mets ici ta vraie clé API YouTube Data API v3
+#Mets ici ta vraie clé API YouTube Data API v3
 CHANNEL_HANDLE = "MrBeast"
 API_KEY = os.getenv("API_KEY")
+
+maxResults = 50 #nombre de videos retournee par page
 
 
 def get_playlist_id():
@@ -36,27 +38,47 @@ def get_playlist_id():
     except requests.exceptions.RequestException as e:
         print("Erreur lors de l'appel API :", e)
         return None
+    
 
 
 def get_video_id(playlistId):
 
-    videos = []
+    baseUrl = f"https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={maxResults}&playlistId={playlistId}&key={API_KEY}"
 
-    pageToken = None
+    videos_id = [] # tableau pour stocker les ids des vidoes
 
-    baseUrl = url = f"https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle={CHANNEL_HANDLE}&key={API_KEY}"
-        
+    pageToken = None #définir que la page Token au debut n'existe pas d'abord
+
     try:
 
         while True:
             url = baseUrl
-    
 
+            if pageToken:
+                url += f"&pageToken{pageToken}"
+            
+            response = requests.get(url)
+
+            response.raise_for_status()
+
+            data = response.json()
+            print(data)     
+
+            for item in data.get("items",[]):
+                video_id = item['contentDetails']['videoId']
+                videos_id.append(video_id)
+
+            pageToken = data.get("pageToken")
+
+            if not pageToken:
+                break
+        
+        return print(videos_id)      
     except requests.exceptions.RequestException as e:
         raise e
     
+    
 if __name__ == "__main__":
-    playlisId = get_playlist_id()
-    if result:
-        print("✅ Requête réussie")
-        print(result)
+    playlistId = get_playlist_id()
+    get_video_id(playlistId)
+  
