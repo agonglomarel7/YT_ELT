@@ -73,12 +73,41 @@ def get_video_id(playlistId):
             if not pageToken:
                 break
         
-        return print(videos_id)      
+        return videos_id    
+    except requests.exceptions.RequestException as e:
+        raise e
+
+def extract_video_data(videos_id):
+
+    def batch_videos_id(videos_id_list, batch_size):
+        for video_list in range(0, len(videos_id_list),batch_size):
+            yield videos_id_list[video_list : video_list + batch_size]
+        
+    extract_data = []
+
+    try:
+
+        for batch in batch_videos_id(videos_id,maxResults):
+            videos_id_str =",".join(batch)
+            
+        url =   'https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails&part=snippet&part=statistics&id={videos_id_str}&key={API_KEY}'    
+
+        response = requests.get(url)
+
+        response.raise_for_status
+
+        data = response.json()
+
+        print (data)
+            
+            
+
     except requests.exceptions.RequestException as e:
         raise e
     
     
 if __name__ == "__main__":
     playlistId = get_playlist_id()
-    get_video_id(playlistId)
+    videos_id = get_video_id(playlistId)
+    extract_video_data(videos_id)
   
