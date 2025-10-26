@@ -28,7 +28,7 @@ def get_playlist_id():
         data = response.json()
 
         # Affichage formaté
-        print(json.dumps(data, indent=4))
+        #print(json.dumps(data, indent=4))
 
         channel_items = data['items'][0]
         channel_playlistId = channel_items['contentDetails']['relatedPlaylists']['uploads']
@@ -62,7 +62,6 @@ def get_video_id(playlistId):
             response.raise_for_status()
 
             data = response.json()
-            print(data)     
 
             for item in data.get("items",[]):
                 video_id = item['contentDetails']['videoId']
@@ -79,29 +78,45 @@ def get_video_id(playlistId):
 
 def extract_video_data(videos_id):
 
+    extract_data = []
+
     def batch_videos_id(videos_id_list, batch_size):
         for video_list in range(0, len(videos_id_list),batch_size):
             yield videos_id_list[video_list : video_list + batch_size]
-        
-    extract_data = []
-
+         
     try:
 
         for batch in batch_videos_id(videos_id,maxResults):
             videos_id_str =",".join(batch)
             
-        url =   'https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails&part=snippet&part=statistics&id={videos_id_str}&key={API_KEY}'    
+            url = f'https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails&part=snippet&part=statistics&id={videos_id_str}&key={API_KEY}'    
 
-        response = requests.get(url)
+            response = requests.get(url)
 
-        response.raise_for_status
+            response.raise_for_status
 
-        data = response.json()
+            data = response.json()
 
-        print (data)
+            for item in data.get("items",[]):
+
+                video_id = item["id"]
+                snippet = item["snippet"]
+                contentDetails = item["contentDetails"]
+                statistics = item["statistics"]
             
-            
+                video_data = {
+                    "video_id" : video_id,
+                    "title" : snippet['title'],
+                    "publishedAt" : snippet['publishedAt'],
+                    "duration" : contentDetails['duration'],
+                    "viewCount" : statistics['viewCount'],
+                    "likeCount" : statistics['likeCount'],
+                    "commentCount" : statistics['commentCount']
+                }
+                extract_data.append(video_data)
 
+        return print(extract_data)
+    
     except requests.exceptions.RequestException as e:
         raise e
     
