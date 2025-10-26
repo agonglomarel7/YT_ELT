@@ -1,6 +1,8 @@
 import requests
 import json
 
+from datetime import date
+
 import os
 from dotenv import load_dotenv
 
@@ -115,14 +117,37 @@ def extract_video_data(videos_id):
                 }
                 extract_data.append(video_data)
 
-        return print(extract_data)
+        return extract_data
     
     except requests.exceptions.RequestException as e:
         raise e
     
-    
+import os
+import json
+from datetime import date
+
+def save_as_json(extract_data):
+    """
+    Sauvegarde les données extraites de YouTube dans un fichier JSON
+    situé dans le dossier ./data avec un nom incluant la date du jour.
+    """
+
+    # S'assurer que le dossier 'data' existe, sinon le créer
+    os.makedirs("data", exist_ok=True)
+
+    # Définir le chemin complet du fichier de sortie
+    file_path = f"./data/YT_data_{date.today()}.json"
+
+    # Ouvrir le fichier en mode écriture ('w') avec encodage UTF-8
+    # Le paramètre ensure_ascii=False permet de garder les caractères accentués lisibles
+    with open(file_path, mode='w', encoding='utf-8') as json_outfile:
+        json.dump(extract_data, json_outfile, indent=4, ensure_ascii=False)
+
+    print(f"✅ Données sauvegardées dans : {file_path}")
+
 if __name__ == "__main__":
     playlistId = get_playlist_id()
     videos_id = get_video_id(playlistId)
-    extract_video_data(videos_id)
+    extracted_data = extract_video_data(videos_id)
+    save_as_json(extracted_data)
   
