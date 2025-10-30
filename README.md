@@ -27,3 +27,5 @@ Le pipeline a pour mission de :
 | **Requests / python-dotenv** | Requêtes API et gestion des variables d’environnement |
 | **Pandas** | Transformation et manipulation de données |
 
+----
+
