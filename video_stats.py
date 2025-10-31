@@ -8,7 +8,8 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path="./.env")
 #Mets ici ta vraie clé API YouTube Data API v3
-CHANNEL_HANDLE = "MrBeast"
+CHANNEL_HANDLE = os.getenv("CHANNEL_HANDLE")
+
 API_KEY = os.getenv("API_KEY")
 
 maxResults = 50 #nombre de videos retournee par page
