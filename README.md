@@ -15,7 +15,7 @@ Le pipeline a pour mission de :
 
 ---
 
-## 🛠️ Stack technique
+## 🛠️ Stack technique utilisée
 
 | Outil / Technologie | Rôle principal |
 |----------------------|----------------|
