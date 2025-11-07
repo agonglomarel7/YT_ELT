@@ -1,7 +1,7 @@
 # 🧱 YT_ELT — YouTube Data ELT Pipeline
 
 ## 🚀 Objectif du projet
-Ce projet a pour but de construire un pipeline **ELT (Extract, Load, Transform)** complet en Python autour de la collecte et du traitement de données issues d’**APIs**, leur stockage dans un **data warehouse PostgreSQL**, puis leur orchestration via **Apache Airflow**.
+Ce projet a pour but de construire un pipeline **ELT (Extract, Load, Transform)** complet en Python autour de la collecte et du traitement de données issues d’**APIs**, leur stockage dans un **data warehouse PostgreSQL**, puis leur orchestration via **Apache Airflow**......
 
 ---
 
